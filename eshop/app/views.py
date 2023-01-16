@@ -1,5 +1,7 @@
 from django.shortcuts import render
-
+from .models import Category,Subcategory
 # Create your views here.
 def home(request):
-    return  render(request,'app/home.html')
+    category = Category.objects.all()
+    context = {'category':category}
+    return  render(request,'app/home.html',context)
