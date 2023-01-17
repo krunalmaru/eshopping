@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processor.cart_total_amount',
             ],
         },
     },
@@ -71,6 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'eshop.wsgi.application'
 
+CART_SESSION_ID = 'cart'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
