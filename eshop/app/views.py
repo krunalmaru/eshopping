@@ -51,6 +51,7 @@ def userlogin(request):
             messages.error(request, 'Invalid Username and Password')
             return redirect('login')
 
+# @login_required(login_url='registration/login')
 def cart_add(request, id):
     cart = Cart(request)
     product = Product.objects.get(id=id)
@@ -72,7 +73,7 @@ def item_increment(request,id):
 def item_decrement(request,id):
     cart = Cart(request)
     product = Product.objects.get(id=id)
-    cart.remove(product=product)
+    cart.decrement(product=product)
     return redirect("cart_detail")
 
 def cart_clear(request):
@@ -81,5 +82,5 @@ def cart_clear(request):
     return redirect("cart_detail")
 
 def cart_detail(request):
-    return render(request,'cart/cart_detail.html')
+    return render(request,'cart_detail.html')
 

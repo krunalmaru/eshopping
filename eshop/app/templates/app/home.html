@@ -140,13 +140,13 @@
                                         <img src="{{pro.image.url}}" alt="" height="200px" width="200px" />
                                         <h2>₹ {{pro.price}}</h2>
                                         <p>{{pro.name}}</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        <a href="{% url 'cart_add' pro.id %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                                     </div>
                                     <div class="product-overlay">
                                         <div class="overlay-content">
                                             <h2>₹ {{pro.price}}</h2>
                                             <p>{{pro.name}}</p>
-                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            <a href="{% url 'cart_add' pro.id %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                                         </div>
                                     </div>
                             </div>
