@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from .models import Category,Subcategory, Product
+from cart.cart import Cart
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def home(request):
     category = Category.objects.all()
@@ -48,3 +50,36 @@ def userlogin(request):
         else:
             messages.error(request, 'Invalid Username and Password')
             return redirect('login')
+
+def cart_add(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect('home')
+
+def item_clear(request,id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.remove(product)
+    return redirect("cart_detail")
+
+def item_increment(request,id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("cart_detail")
+
+def item_decrement(request,id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.remove(product=product)
+    return redirect("cart_detail")
+
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("cart_detail")
+
+def cart_detail(request):
+    return render(request,'cart/cart_detail.html')
+
