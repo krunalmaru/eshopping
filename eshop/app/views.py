@@ -24,14 +24,18 @@ def register(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
-
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username Already Exist')
+            return redirect('login')
         if User.objects.filter(email=email).exists():
             messages.error(request, 'Email Already Exist')
-            return redirect('register')
+            return redirect('login')
         user = User(username=username,email=email)
         user.set_password(password)
         user.save()
-        return redirect('home')
+        return redirect('login')
+
+
 
 def userlogin(request):
     if request.method == 'POST':
@@ -43,4 +47,4 @@ def userlogin(request):
             return redirect('home')
         else:
             messages.error(request, 'Invalid Username and Password')
-            return redirect('userlogin')
+            return redirect('login')
