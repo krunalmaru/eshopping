@@ -20,6 +20,8 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product/img')
     name = models.CharField(max_length=255)
     price = models.IntegerField()
+    tax = models.IntegerField(null=True)
+    description = models.TextField()
     date = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
