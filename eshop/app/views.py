@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from .models import Category,Subcategory, Product
+from .models import Category,Subcategory, Product,Contactus
 from cart.cart import Cart
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -84,8 +84,19 @@ def cart_clear(request):
     cart = Cart(request)
     cart.clear()
     return redirect("cart_detail")
-    
+
 @login_required(login_url='/accounts/login')
 def cart_detail(request):
     return render(request,'cart_detail.html')
 
+def contact(request):
+    if request.method == 'POST':
+        contact = Contactus(
+        name = request.POST.get('name'),
+        email = request.POST.get('email'),
+        subject = request.POST.get('subject'),
+        )
+        contact.save()
+        return redirect('contactus')
+
+    return render(request, 'contact.html')

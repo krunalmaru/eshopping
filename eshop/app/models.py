@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import datetime
-
+from ckeditor.fields import RichTextField
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=150)
@@ -23,7 +23,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     price = models.IntegerField()
     tax = models.IntegerField(null=True)
-    description = models.TextField()
+    description = RichTextField()
     date = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
