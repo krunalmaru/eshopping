@@ -89,11 +89,11 @@
 							<ul class="nav navbar-nav">
 								{% if request.user.is_authenticated %}
 								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
+								<li><a href="{% url 'yourorder'%}"><i class="fa fa-crosshairs"></i>Order</a></li> 
 								<li><a href="{% url 'logout' %}"><i class="fa fa-unlock"></i> Logout</a></li>
 								{% else %}
 								<li><a href="{% url 'login'%}"><i class="fa fa-lock"></i> Login</a></li>
 								{% endif%}
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="{% url 'cart_detail'%}"><i class="fa fa-shopping-cart"></i> Cart <span class="badge badge-secondary">{{request.session.cart|length}}</span> </a></li>
 				
 							</ul>
@@ -122,7 +122,7 @@
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="shop.html">Products</a></li>
 										<li><a href="product-details.html">Product Details</a></li> 
-										<li><a href="checkout.html">Checkout</a></li> 
+										<li><a href="{% url 'yourorder'%}">Order</a></li> 
 										<li><a href="{% url 'cart_detail'%}">Cart</a></li> 
 										<li><a href="login.html">Login</a></li> 
                                     </ul>

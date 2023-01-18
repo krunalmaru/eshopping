@@ -16,13 +16,20 @@ class Subcategory(models.Model):
     def __str__(self) -> str:
         return self.name
 
+class Brand(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self) -> str:
+        return self.name
+
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE,null=False, default='')
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE,null=False, default='')
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True)
     image = models.ImageField(upload_to='product/img')
     name = models.CharField(max_length=255)
     price = models.IntegerField()
-    tax = models.IntegerField(null=True)
+    tax = models.IntegerField(null=True, blank=True)
     description = RichTextField()
     date = models.DateField(auto_now_add=True)
 
@@ -38,9 +45,12 @@ class Contactus(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
+
 class Order(models.Model):
     image = models.ImageField(upload_to='order/image') 
     product = models.CharField(max_length=100, default='')
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity = models.CharField(max_length=5)
     price = models.IntegerField()

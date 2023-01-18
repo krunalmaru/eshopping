@@ -2,19 +2,24 @@ from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from .models import Category,Subcategory, Product,Contactus,Order
+from .models import Category,Subcategory, Product,Contactus,Order,Brand
 from cart.cart import Cart
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 def home(request):
     category = Category.objects.all()
     categoryid = request.GET.get('category')
+    brand = Brand.objects.all()
+    brandid = request.GET.get('brand')
+
     if categoryid:
         product = Product.objects.filter(subcategory=categoryid).order_by('-id')
+    elif brandid:
+        product = Product.objects.filter(brand=brandid).order_by('-id')
     else:
         product = Product.objects.all()
         
-    context = {'category':category, 'product':product}
+    context = {'category':category, 'product':product,'brand':brand}
     return  render(request,'app/home.html',context)
 
 def myaccount(request):
