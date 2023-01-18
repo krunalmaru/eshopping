@@ -40,14 +40,15 @@ class Contactus(models.Model):
 
 class Order(models.Model):
     image = models.ImageField(upload_to='order/image') 
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.CharField(max_length=100, default='')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity = models.CharField(max_length=5)
     price = models.IntegerField()
+    total = models.CharField(max_length=255, default='')
     address = models.TextField()
     phone= models.CharField(max_length=20)
     pincode = models.CharField(max_length=10)
     date = models.DateField(default=datetime.datetime.today)
 
     def __str__(self) -> str:
-        return self.product.name
+        return self.product

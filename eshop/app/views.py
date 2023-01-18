@@ -1,8 +1,8 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from .models import Category,Subcategory, Product,Contactus
+from .models import Category,Subcategory, Product,Contactus,Order
 from cart.cart import Cart
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -100,3 +100,40 @@ def contact(request):
         return redirect('contactus')
 
     return render(request, 'contact.html')
+
+def checkout(request):
+    if request.method == 'POST':
+        phone= request.POST.get('phone')
+        address = request.POST.get('address')
+        pincode = request.POST.get('pincode')
+        cart = request.session.get('cart')
+        uid = request.session.get('_auth_user_id')
+        user = User.objects.get(pk=uid)
+        print(phone,address,pincode,cart,user)
+        for i in cart:
+            print(i)
+            a = (int(cart[i]['price']))
+            b = cart[i]['quantity']
+            total = a * b
+            order = Order(
+                user = user,
+                product = cart[i]['name'],
+                quantity = cart[i]['quantity'],
+                price = cart[i]['price'],
+                image = cart[i]['image'],
+                address = address,
+                pincode=pincode,
+                phone=phone,
+                total = total
+            )
+            order.save()
+        request.session['cart'] = {}
+        return redirect('home')
+    return HttpResponse("this is checkout")
+
+def yourorder(request):
+    uid = request.session.get('_auth_user_id')
+    user = User.objects.get(pk=uid)
+    order = Order.objects.filter(user=user)
+    context = {'order':order}
+    return render(request, 'yourorder.html',context)
