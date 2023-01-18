@@ -142,3 +142,22 @@ def yourorder(request):
     order = Order.objects.filter(user=user)
     context = {'order':order}
     return render(request, 'yourorder.html',context)
+
+def allproduct(request):
+    category = Category.objects.all()
+    brand = Brand.objects.all()
+    brandid = request.GET.get('brand')
+    categoryid = request.GET.get('category')
+    if brandid:
+        product = Product.objects.filter(brand=brandid).order_by('-id')
+    elif categoryid:
+        product = Product.objects.filter(category=categoryid).order_by('-id')
+    else:
+        product = Product.objects.all()
+    context ={'product':product,'brand':brand,'category':category}    
+    return render(request, 'allproduct.html',context)
+
+def productdetail(request,id):
+    product = Product.objects.filter(id=id).first()
+    context = {'product':product}
+    return render(request, 'productdetail.html',context)

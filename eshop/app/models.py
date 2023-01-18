@@ -23,6 +23,9 @@ class Brand(models.Model):
         return self.name
 
 class Product(models.Model):
+    Availability = (('In Stock','In stock'),
+        ('Out Of stock', 'Out Of Stock')
+    )
     category = models.ForeignKey(Category, on_delete=models.CASCADE,null=False, default='')
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE,null=False, default='')
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True)
@@ -32,6 +35,7 @@ class Product(models.Model):
     tax = models.IntegerField(null=True, blank=True)
     description = RichTextField()
     date = models.DateField(auto_now_add=True)
+    availability = models.CharField(choices=Availability,max_length=100,null=True)
 
     def __str__(self) -> str:
         return self.name
