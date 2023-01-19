@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate,login,logout
 from .models import Category,Subcategory, Product,Contactus,Order,Brand
 from cart.cart import Cart
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 # Create your views here.
 def home(request):
     category = Category.objects.all()
@@ -154,6 +155,9 @@ def allproduct(request):
         product = Product.objects.filter(category=categoryid).order_by('-id')
     else:
         product = Product.objects.all()
+    p = Paginator(product,2)
+    page = request.GET.get('page')
+    product = p.get_page(page)
     context ={'product':product,'brand':brand,'category':category}    
     return render(request, 'allproduct.html',context)
 
@@ -161,3 +165,10 @@ def productdetail(request,id):
     product = Product.objects.filter(id=id).first()
     context = {'product':product}
     return render(request, 'productdetail.html',context)
+
+def search(request):
+    query = request.GET['searchquery']
+    product= Product.objects.filter(name__icontains=query)
+    
+    context = {'product':product}
+    return render(request,'search.html',context)
