@@ -163,7 +163,8 @@ def allproduct(request):
 
 def productdetail(request,id):
     product = Product.objects.filter(id=id).first()
-    context = {'product':product}
+    allproduct = Product.objects.all()
+    context = {'product':product,'allproduct':allproduct}
     return render(request, 'productdetail.html',context)
 
 def search(request):
